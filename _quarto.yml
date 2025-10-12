@@ -1,0 +1,33 @@
+project:
+  type: website
+  output-dir: docs/
+website:
+  google-analytics: 
+    tracking-id: "G-LZ35J3XE4D"
+  announcement: 
+    icon: info-circle
+    dismissable: true
+    content: "Please see left-sidebar for definitions"
+    type: info
+    position: below-navbar  
+  title: "UMGCCC FCSR"
+  site-path: "/Sterility/"
+  navbar:
+    logo: images/hex.svg
+    left:
+    - text: "Home"
+      href: index.qmd
+    right:
+    - text: "Help"
+      href: help.qmd
+    - icon: github
+      href: https://github.com/UMGCCFCSS/InstrumentQC
+      aria-label: GitHub
+  page-footer:
+    background: light
+    left: University of Maryland, Baltimore
+    right: Built with [Quarto](https://quarto.org/). How? [Find Out](https://davidrach.github.io/InstrumentQC_Install/){target=_blank}
+
+format:
+  html:
+    theme: styles.scss
