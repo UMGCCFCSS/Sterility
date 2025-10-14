@@ -1,0 +1,71 @@
+---
+title: "Room Temperature"
+format: html
+---
+
+```{r}
+library(dplyr)
+library(ggplot2)
+```
+
+# Temperature
+
+```{r}
+Data <- read.csv("sensors/data/RoomTemp.csv", check.names=FALSE)
+```
+
+```{r}
+Data <- Data |> mutate(SensorName="BRB-7022") |> select(SensorName, Date, Value)
+Data$Date <- lubridate::mdy_hm(Data$Date)
+Data <- Data |> mutate(ValueF = (Value * 9/5) + 32)
+```
+
+```{r}
+ThePlot <- ggplot(Data, aes(x=Date, y=ValueF)) + geom_line(color="blue") +
+     geom_point(size=1, color="blue") + theme_bw() + labs(x=NULL, y = "Temperature *F", title="BRB 7-022 Temperature") + ylim(50,90)
+```
+
+```{r}
+plotly::ggplotly(ThePlot)
+```
+
+# Humidity
+
+```{r}
+Data <- read.csv("sensors/data/Humidity.csv", check.names=FALSE)
+```
+
+```{r}
+Data <- Data |> mutate(SensorName="BRB-7022") |> select(SensorName, Date, Value)
+Data$Date <- lubridate::mdy_hm(Data$Date)
+```
+
+```{r}
+ThePlot <- ggplot(Data, aes(x=Date, y=Value)) + geom_line(color="darkgreen") +
+     geom_point(size=1, color="darkgreen") + theme_bw() + labs(x=NULL, y = "Temperature *F", title="BRB 7-022 Humidity") + ylim(0,100)
+```
+
+```{r}
+plotly::ggplotly(ThePlot)
+```
+
+# Freezer
+
+```{r}
+Data <- read.csv("sensors/data/VWRUprightFreezer.csv", check.names=FALSE)
+```
+
+```{r}
+Data <- Data |> mutate(SensorName="BRB-7022") |> select(SensorName, Date, Value)
+Data$Date <- lubridate::mdy_hm(Data$Date)
+Data <- Data |> mutate(ValueF = (Value * 9/5) + 32)
+```
+
+```{r}
+ThePlot <- ggplot(Data, aes(x=Date, y=Value)) + geom_line(color="blue") +
+     geom_point(size=1, color="blue") + theme_bw() + labs(x=NULL, y = "Temperature *F", title="Freezer Temperature") + ylim(-40,20)
+```
+
+```{r}
+plotly::ggplotly(ThePlot)
+```

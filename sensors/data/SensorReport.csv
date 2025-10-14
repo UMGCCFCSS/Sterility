@@ -1,0 +1,8 @@
+Report: Sensor Report
+
+
+"SensorID","Sensor Name","Sensor Type","Network Name","Sensor Code"
+"730996","BRB 7-022 Humidity - (730996)","Humidity","UMGCCC FCSS Network","IMNUCB"
+"738234","BRB 7-022 Temperature - (738234)","Temperature","UMGCCC FCSS Network","IMYQHP"
+"738225","VWR Freezer Temperature - (738225)","Temperature","UMGCCC FCSS Network","IMDTLD"
+"738216","VWR Refg Temperature - 738216","Temperature","UMGCCC FCSS Network","IMIWOR"
