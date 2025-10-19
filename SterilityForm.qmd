@@ -120,7 +120,18 @@ Printer <- function(x){
             cells_body(columns = "Day3PM"),
             cells_column_labels(columns = "Day3PM")
         )
+    ) |> tab_style(
+    style = cell_fill(color = "lightgrey"),
+    locations = cells_body(
+      rows = Instrument == "LB"
+    ) |> tab_style(
+    style = cell_fill(color = "lightgrey"),
+    locations = cells_body(
+      columns = c(Day1PM, Day2PM, Day3PM)
     )
+  )
+
+  )
 
     return(Table)
 }
@@ -131,7 +142,7 @@ Plotter <- function(x){
     Data <- data.frame(
         Date=rep(x, 6),
         Day=rep(Day, 6),
-        Shift=c(rep("Afternoon", 3), rep("Morning", 3)),
+        Shift=c(rep("Morning", 3), rep("Afternoon", 3)),
         Comment=rep("", 6),
         Staff=rep("", 6), 
         Instrument=c("Aria", "Aurora", "LB", "Aria", "Aurora", "LB"),

@@ -1,0 +1,19 @@
+---
+format: pdf
+geometry: 
+- top=0.5in
+- bottom=0.5in  
+- left=0.5in
+- right=0.5in
+- landscape
+classoption: landscape
+header-includes: |
+  \usepackage{graphicx}
+  \usepackage{float}
+---
+
+![](TheTable.png)
+
+```{=latex}
+%s
+```
