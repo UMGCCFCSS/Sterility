@@ -1,0 +1,157 @@
+---
+title: "SterilityForm"
+format: html
+---
+
+This Quarto Document will generate the SterilityForm.csv and the equivalent SterilityForm.pdf for a given week. 
+The .pdf will be printed and hung on the incubator, and updated in the morning and before closing. The final recorded data will be added back to the equivalent Sterility_WeekDate.csv. At the start of the next week, run SterilityForm_Archive.qmd to transfer the old data to long-term data folder. 
+
+# Setup Functions
+
+```{r}
+
+SterilityForm <- function(Date=NULL){
+
+    if (is.null(Date)){Date <- Sys.Date()
+        } else {Date <- as.Date(Date)}
+
+    DayOfWeek <- lubridate::wday(Date, week_start = 7)
+
+    if (DayOfWeek == 1) {Monday <- Date + 1
+    } else {Monday <- Date - (DayOfWeek - 2)}
+
+    TheDates <- Monday + 0:4
+
+    #x <- TheDates[1]
+    Data <- purrr::map(.f=Plotter, .x=TheDates) |> dplyr::bind_rows()
+
+    Append <- gsub("-", "", as.character(Monday))
+    filename <- paste0("Sterility", "_", Append, ".csv")
+    StorageLocation <- file.path("data", filename)
+    write.csv(Data, StorageLocation, row.names=FALSE)
+
+    filenamePDF <- paste0("Sterility", "_", Append, ".qmd")
+    StorageLocationPDF <- file.path("data", filenamePDF)
+    # x <- Data
+    Table <- Printer(x=Data)
+
+    TheQuartoDoc(path=StorageLocationPDF, blankpages=0)
+
+    TheTable <- file.path("data", "TheTable.png")
+    gtsave(Table, TheTable, vwidth = 1200,vheight = 600,
+     expand=0, zoom=2)
+    
+    quarto::quarto_preview(file=StorageLocationPDF)
+
+    file.remove("data/TheTable.png")
+    file.remove(StorageLocationPDF)
+
+    return(Data)
+}
+
+#' Creates a quarto template for creation of the ExperimentTemplate
+#' 
+#' @param path Location to store the .qmd template to
+#' @param blankpages Number of desired blank pages at the end
+TheQuartoDoc <- function(path, blankpages=0){
+
+TheDate <- format(Sys.Date(), "%B %d, %Y")
+
+FirstChunk <- 
+'---
+format: pdf
+geometry: 
+- top=0.5in
+- bottom=0.5in  
+- left=0.5in
+- right=0.5in
+- landscape
+classoption: landscape
+header-includes: |
+  \\usepackage{graphicx}
+  \\usepackage{float}
+---
+
+![](TheTable.png)
+
+```{=latex}
+%s
+```'
+  
+  TheTemplate <- path
+  writeLines(FirstChunk, TheTemplate)
+}
+
+Printer <- function(x){
+
+    library(gt)
+     Table <- x |> gt() |>
+    tab_header(
+        title = "Sterility Checks",
+    ) |>
+    tab_style(
+        style = cell_text(weight = "bold"),
+        locations = cells_column_labels(everything())
+    ) |>
+    tab_options(
+        table.width = pct(95),
+        table.align = "center",
+        data_row.padding = px(4),
+        table.font.size = pct(90),
+        heading.align = "center"
+    ) |>
+    tab_options(
+        table_body.hlines.style = "solid",
+        table_body.hlines.color = "grey60",
+        table_body.vlines.style = "solid", 
+        table_body.vlines.color = "grey60",
+        column_labels.border.bottom.style = "solid",
+        column_labels.border.bottom.color = "black",
+        heading.border.bottom.style = "solid",
+        heading.border.bottom.color = "black"
+    ) |>
+    tab_style(
+        style = cell_borders(
+            sides = "right",
+            color = "black",
+            weight = px(3)
+        ),
+        locations = list(
+            cells_body(columns = "Day3PM"),
+            cells_column_labels(columns = "Day3PM")
+        )
+    )
+
+    return(Table)
+}
+
+
+Plotter <- function(x){
+    Day <- weekdays(x)
+    Data <- data.frame(
+        Date=rep(x, 6),
+        Day=rep(Day, 6),
+        Shift=c(rep("Afternoon", 3), rep("Morning", 3)),
+        Comment=rep("", 6),
+        Staff=rep("", 6), 
+        Instrument=c("Aria", "Aurora", "LB", "Aria", "Aurora", "LB"),
+        Nozzle=rep("", 6),
+        Day0=rep("", 6),
+        Day1AM=rep("", 6),
+        Day1PM=rep("", 6),
+        Day2AM=rep("", 6),
+        Day2PM=rep("", 6),
+        Day3AM=rep("", 6),
+        Day3PM=rep("", 6)
+        )
+    return(Data)
+}
+```
+
+# Generate Printouts
+
+```{r}
+SterilityForm("2025-10-18")
+SterilityForm("2025-10-19")
+```
+
