@@ -20,14 +20,38 @@ colnames(Data)
 # StartHere
 
 ```{r}
-Value <- "data/2019/Sterility_2019.csv"
+Value <- "data/2024/Sterility_2024.csv"
 Data <- read.csv(Value, check.names=FALSE)
 ```
 
 ```{r}
-#colnames(Data)[1] <- "Type"
-Data$Type <- gsub("Tube Inoculation Date: ", "", Data$Type) 
+colnames(Data)
+str(Data)
 #Data$Type <- gsub("Tube Inoculation Date: ", "", Data$Type)
+Data$Date <- gsub("/", "-", Data$Date)
+Data$Date <- gsub(" ", "-", Data$Date)
+Data$Date <- gsub("2024-01-03", "01-03-2024", Data$Date)
+Data$Date |> unique()
+lubridate::mdy(Data$Date)
+# Data$Date <- lubridate::mdy(Data$Date) # Validate First
+Data$Type |> unique()
+Data$Type <- gsub(", Tank", "", Data$Type)
+Data$Type <- gsub("Sheathe", "Sheath", Data$Type)
+Data$Type <- gsub(", ", "_", fixed=TRUE, Data$Type)
+Data$Type <- gsub("LB ", "LB", fixed=TRUE, Data$Type)
+Data$Type <- gsub("Sheath ", "Sheath_", fixed=TRUE, Data$Type)
+
+Data$Day1 |> unique()
+Data$Day1 <- gsub("-", "0", fixed=TRUE, Data$Day1)
+Data$Day1 <- gsub("+", "1", fixed=TRUE, Data$Day1)
+
+Data$Day2 |> unique()
+Data$Day2 <- gsub("-", "0", fixed=TRUE, Data$Day2)
+Data$Day2 <- gsub("+", "1", fixed=TRUE, Data$Day2)
+
+Data$Day3 |> unique()
+Data$Day3 <- gsub("-", "0", fixed=TRUE, Data$Day3)
+Data$Day3 <- gsub("+", "1", fixed=TRUE, Data$Day3)
 ```
 
 ```{r}
