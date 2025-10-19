@@ -1,0 +1,35 @@
+---
+title: "Historical Append"
+format: html
+---
+
+This form is to facilitate the transfer of previous sterility records. It works by having the function append on a new row and overwrite on to the exiting variable. 
+
+```{r}
+Archival <- function(Data=NULL, Date="", Day1AM="", Day2AM="",
+ Day3AM="", Comments="", returnCSV=FALSE){
+
+if (is.null(Data)){Data <- data.frame(Date=Date, Day1AM=Day1AM,
+ Day2AM=Day2AM, Day3AM=Day3AM, Comments=Comments)
+} else {
+    Add <- data.frame(Date=Date, Day1AM=Day1AM,
+    Day2AM=Day2AM, Day3AM=Day3AM, Comments=Comments)
+    Data <- dplyr::bind_rows(Add, Data)
+ }
+
+if (returnCSV == TRUE){
+    write.csv(Data, "SterilityChecks_Historical.csv", row.names=FALSE)
+    }
+
+return(Data)
+}
+```
+
+# Start Here
+
+```{r}
+Data <- Archival(Date="2018-07-30", Day1AM="1", Day2AM="1", Day3AM="", Comments="", Data=Data)
+
+```
+
+
