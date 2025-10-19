@@ -1,0 +1,36 @@
+---
+title: "Historical"
+format: html
+---
+
+```{r}
+Data <- read.csv("data/2018/Sterility_2018.csv", check.names=FALSE)
+Data <- read.csv("data/2019/Sterility_2019.csv", check.names=FALSE)
+Data <- read.csv("data/2020/Sterility_2020.csv", check.names=FALSE)
+Data <- read.csv("data/2021/Sterility_2021.csv", check.names=FALSE)
+Data <- read.csv("data/2022/Sterility_2022.csv", check.names=FALSE)
+Data <- read.csv("data/2023/Sterility_2023.csv", check.names=FALSE)
+Data <- read.csv("data/2024/Sterility_2024.csv", check.names=FALSE)
+Data <- read.csv("data/2025/Sterility_2025.csv", check.names=FALSE)
+```
+```{r}
+colnames(Data)
+```
+
+# StartHere
+
+```{r}
+Value <- "data/2019/Sterility_2019.csv"
+Data <- read.csv(Value, check.names=FALSE)
+```
+
+```{r}
+#colnames(Data)[1] <- "Type"
+Data$Type <- gsub("Tube Inoculation Date: ", "", Data$Type) 
+#Data$Type <- gsub("Tube Inoculation Date: ", "", Data$Type)
+```
+
+```{r}
+write.csv(Data, Value, row.names=FALSE)
+```
+
