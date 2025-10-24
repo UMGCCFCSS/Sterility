@@ -1,0 +1,47 @@
+Date,Instrument,Timepoint,Type,Day1,Day2,Day3,Comments
+2014-07-03,One,,Media,1,1,1,Growth in all wells except cell well on day 3
+2014-07-03,One,,Sheathe,1,1,1,Growth in all wells except cell well on day 3
+2014-07-07,One,,Media,0,1,1,"Organism growth in all wells, especially sheathe, need to find source of contamination"
+2014-07-07,One,,Sheathe,0,1,1,"Organism growth in all wells, especially sheathe, need to find source of contamination"
+2014-07-10,Two,,Media,1,1,1,"Checked cells after platting, all look well, media appears contaminated, all other wells appear clear up to D5"
+2014-07-10,Two,,Sheathe,0,0,0,"Checked cells after platting, all look well, media appears contaminated, all other wells appear clear up to D5"
+2014-07-11,One,,Media,0,0,0,"Both Instruments clear, no contamination D4"
+2014-07-11,One,,Sheathe,0,0,0,"Both Instruments clear, no contamination D4"
+2014-07-11,Two,,Media,0,0,0,"Both Instruments clear, no contamination D4"
+2014-07-11,Two,,Sheathe,0,0,0,"Both Instruments clear, no contamination D4"
+2014-07-17,One,,Media,0,0,0,
+2014-07-17,One,,Sheathe,0,0,0,
+2014-07-21,,,Media,0,0,0,
+2014-07-21,,,Sheathe,0,0,0,
+2014-08-05,,,Media,0,0,0,
+2014-08-05,,,Sheathe,0,0,0,
+2014-08-06,,,Media,0,0,0,
+2014-08-06,,,Sheathe,0,0,0,
+2014-08-25,,,Media,0,0,0,
+2014-08-25,,,Sheathe,0,0,0,
+2014-09-15,Two,AM,Media,0,0,0,
+2014-09-15,Two,AM,Sheathe,0,0,0,
+2014-09-25,,,Media,0,0,0,
+2014-09-25,,,Sheathe,0,0,0,
+2014-09-29,One,,Media,0,0,,
+2014-09-29,One,,Sheathe,0,0,,
+2014-10-06,,,Media,0,0,,
+2014-10-06,,,Sheathe,0,0,,
+2014-10-09,,,Media,0,0,0,
+2014-10-09,,,Sheathe,0,0,0,
+2014-10-14,,,Media,0,0,,
+2014-10-14,,,Sheathe,0,0,,
+2014-11-11,,,Media,0,0,0,
+2014-11-11,,,Sheathe,0,0,0,
+2014-11-12,,,Media,0,0,0,
+2014-11-12,,,Sheathe,0,0,0,
+2014-11-15,,,Media,0,0,0,
+2014-11-15,,,Sheathe,0,0,0,
+2014-11-21,,,Media,0,0,0,
+2014-11-21,,,Sheathe,0,0,0,
+2014-12-01,,,Media,0,0,,
+2014-12-01,,,Sheathe,0,0,,
+2014-12-05,,,Media,0,0,0,
+2014-12-05,,,Sheathe,0,0,0,
+2014-12-17,,,Media,0,0,,
+2014-12-17,,,Sheathe,0,0,,
