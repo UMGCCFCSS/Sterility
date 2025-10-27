@@ -84,53 +84,53 @@ header-includes: |
 
 Printer <- function(x){
 
-    library(gt)
-     Table <- x |> gt() |>
-    tab_header(
-        title = "Sterility Checks",
-    ) |>
-    tab_style(
-        style = cell_text(weight = "bold"),
-        locations = cells_column_labels(everything())
-    ) |>
-    tab_options(
-        table.width = pct(95),
-        table.align = "center",
-        data_row.padding = px(4),
-        table.font.size = pct(90),
-        heading.align = "center"
-    ) |>
-    tab_options(
-        table_body.hlines.style = "solid",
-        table_body.hlines.color = "grey60",
-        table_body.vlines.style = "solid", 
-        table_body.vlines.color = "grey60",
-        column_labels.border.bottom.style = "solid",
-        column_labels.border.bottom.color = "black",
-        heading.border.bottom.style = "solid",
-        heading.border.bottom.color = "black"
-    ) |>
-    tab_style(
-        style = cell_borders(
-            sides = "right",
-            color = "black",
-            weight = px(3)
-        ),
-        locations = list(
-            cells_body(columns = "Day3PM"),
-            cells_column_labels(columns = "Day3PM")
-        )
-    ) |> tab_style(
+library(gt)
+
+Table <- x |> gt() |>
+  tab_header(
+    title = "Sterility Checks"
+  ) |>
+  tab_options(
+    table.width = pct(95),
+    table.align = "center",
+    data_row.padding = px(4),
+    table.font.size = pct(90),
+    heading.align = "center",
+    table_body.hlines.style = "solid",
+    table_body.hlines.color = "grey60",
+    table_body.vlines.style = "solid", 
+    table_body.vlines.color = "grey60",
+    column_labels.border.bottom.style = "solid",
+    column_labels.border.bottom.color = "black",
+    heading.border.bottom.style = "solid",
+    heading.border.bottom.color = "black"
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_labels(everything())
+  ) |>
+  tab_style(
+    style = cell_borders(
+      sides = "right",
+      color = "black",
+      weight = px(3)
+    ),
+    locations = list(
+      cells_body(columns = "Day3PM"),
+      cells_column_labels(columns = "Day3PM")
+    )
+  ) |>
+  tab_style(
     style = cell_fill(color = "lightgrey"),
     locations = cells_body(
       rows = Instrument == "LB"
-    ) |> tab_style(
+    )
+  ) |>
+  tab_style(
     style = cell_fill(color = "lightgrey"),
     locations = cells_body(
       columns = c(Day1PM, Day2PM, Day3PM)
     )
-  )
-
   )
 
     return(Table)
@@ -162,7 +162,6 @@ Plotter <- function(x){
 # Generate Printouts
 
 ```{r}
-SterilityForm("2025-10-18")
-SterilityForm("2025-10-19")
+SterilityForm("2025-10-27")
 ```
 
