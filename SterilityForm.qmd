@@ -8,6 +8,8 @@ The .pdf will be printed and hung on the incubator, and updated in the morning a
 
 # Setup Functions
 
+## Sheathe
+
 ```{r}
 
 SterilityForm <- function(Date=NULL){
@@ -155,6 +157,182 @@ Plotter <- function(x){
         Day3AM=rep("", 6),
         Day3PM=rep("", 6)
         )
+    return(Data)
+}
+```
+
+## Nozzles
+
+```{r}
+
+SterilityForm <- function(Date=NULL){
+
+    if (is.null(Date)){Date <- Sys.Date()
+        } else {Date <- as.Date(Date)}
+
+    DayOfWeek <- lubridate::wday(Date, week_start = 7)
+
+    if (DayOfWeek == 1) {Monday <- Date + 1
+    } else {Monday <- Date - (DayOfWeek - 2)}
+
+    TheDates <- Monday + 0:4
+    TheFriday <- TheDates[length(TheDates)]
+
+    #x <- TheDates[1]
+    Data <- purrr::map(.f=PlotterSonicate, .x=TheDates) |> dplyr::bind_rows()
+    Data2 <- purrr::map(.f=PlotterSonicate2, .x=TheFriday)
+
+    Append <- gsub("-", "", as.character(Monday))
+    filename <- paste0("Sterility", "_", Append, ".csv")
+    StorageLocation <- file.path("data", filename)
+    write.csv(Data, StorageLocation, row.names=FALSE)
+
+    filenamePDF <- paste0("Sterility", "_", Append, ".qmd")
+    StorageLocationPDF <- file.path("data", filenamePDF)
+    # x <- Data
+    Table <- Printer(x=Data)
+
+    TheQuartoDoc(path=StorageLocationPDF, blankpages=0)
+
+    TheTable <- file.path("data", "TheTable.png")
+    gtsave(Table, TheTable, vwidth = 1200,vheight = 600,
+     expand=0, zoom=2)
+    
+    quarto::quarto_preview(file=StorageLocationPDF)
+
+    file.remove("data/TheTable.png")
+    file.remove(StorageLocationPDF)
+
+    return(Data)
+}
+
+#' Creates a quarto template for creation of the ExperimentTemplate
+#' 
+#' @param path Location to store the .qmd template to
+#' @param blankpages Number of desired blank pages at the end
+TheQuartoDoc <- function(path, blankpages=0){
+
+TheDate <- format(Sys.Date(), "%B %d, %Y")
+
+FirstChunk <- 
+'---
+format: pdf
+geometry: 
+- top=0.5in
+- bottom=0.5in  
+- left=0.5in
+- right=0.5in
+- landscape
+classoption: landscape
+header-includes: |
+  \\usepackage{graphicx}
+  \\usepackage{float}
+---
+
+![](TheTable.png)
+
+```{=latex}
+%s
+```'
+  
+  TheTemplate <- path
+  writeLines(FirstChunk, TheTemplate)
+}
+
+Printer <- function(x){
+
+library(gt)
+
+Table <- x |> gt() |>
+  tab_header(
+    title = "Sterility Checks"
+  ) |>
+  tab_options(
+    table.width = pct(95),
+    table.align = "center",
+    data_row.padding = px(4),
+    table.font.size = pct(90),
+    heading.align = "center",
+    table_body.hlines.style = "solid",
+    table_body.hlines.color = "grey60",
+    table_body.vlines.style = "solid", 
+    table_body.vlines.color = "grey60",
+    column_labels.border.bottom.style = "solid",
+    column_labels.border.bottom.color = "black",
+    heading.border.bottom.style = "solid",
+    heading.border.bottom.color = "black"
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_labels(everything())
+  ) |>
+  tab_style(
+    style = cell_borders(
+      sides = "right",
+      color = "black",
+      weight = px(3)
+    ),
+    locations = list(
+      cells_body(columns = "Day3PM"),
+      cells_column_labels(columns = "Day3PM")
+    )
+  ) |>
+  tab_style(
+    style = cell_fill(color = "lightgrey"),
+    locations = cells_body(
+      rows = Instrument == "LB"
+    )
+  ) |>
+  tab_style(
+    style = cell_fill(color = "lightgrey"),
+    locations = cells_body(
+      columns = c(Day1PM, Day2PM, Day3PM)
+    )
+  )
+
+    return(Table)
+}
+
+
+PlotterSonicate <- function(x){
+    Day <- weekdays(x)
+    Data <- data.frame(
+        Date=rep(x, 2),
+        Day=rep(Day, 2),
+        Shift=c(rep("Sonicate", 2)),
+        Comment=rep("", 2),
+        Staff=rep("", 2), 
+        Instrument=c("Aria", "Aurora"),
+        Nozzle=rep("", 2),
+        Day0=rep("", 2),
+        Day1AM=rep("", 2),
+        Day1PM=rep("", 2),
+        Day2AM=rep("", 2),
+        Day2PM=rep("", 2),
+        Day3AM=rep("", 2),
+        Day3PM=rep("", 2)
+        )  
+    return(Data)
+}
+
+PlotterSonicate2 <- function(x){
+    Day <- weekdays(x)
+    Data <- data.frame(
+        Date=rep(x, 8),
+        Day=rep(Day, 8),
+        Shift=c(rep("Sonicate", "After", "Sonicate", "After"),2),
+        Comment=rep("", 8),
+        Staff=rep("", 8), 
+        Instrument=c("Aria", "Aurora", "Aria", "Aurora"),
+        Nozzle=rep("", 8),
+        Day0=rep("", 8),
+        Day1AM=rep("", 8),
+        Day1PM=rep("", 8),
+        Day2AM=rep("", 8),
+        Day2PM=rep("", 8),
+        Day3AM=rep("", 8),
+        Day3PM=rep("", 8)
+        )  
     return(Data)
 }
 ```
