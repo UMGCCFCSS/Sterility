@@ -161,6 +161,24 @@ Plotter <- function(x){
 }
 ```
 
+# Generate Printouts
+
+```{r}
+SterilityForm("2025-11-09")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Nozzles
 
 ```{r}
@@ -337,9 +355,4 @@ PlotterSonicate2 <- function(x){
 }
 ```
 
-# Generate Printouts
-
-```{r}
-SterilityForm("2025-11-04")
-```
 
